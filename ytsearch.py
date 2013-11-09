@@ -1,31 +1,38 @@
 import urllib
 import sys
 import re
+import random
 
-sys.argv.append("cars")
-sys.argv.append("cars")
+collection = ['dolls', 'booba']
 
-if len(sys.argv) > 1:
-    term = sys.argv[1] #the url from command
-    query = "http://www.youtube.com/results?search_query="+term
-    print query
+class RandomVideoBuilder:
 
-    yTUBE = urllib.urlopen(query).read()
-    sTUBE = str(yTUBE)
+    def __init__(self):
+        self.term = collection[random.randint(0,1)]
+        self.id = "00000"
 
-    #href="/watch?v=RsltR02GNZE"
-    tmp_mat = re.compile("<a href=\"/watch\?v=(.+?)\" ") #pattern to match for finding a video link
-    match = re.search(tmp_mat, sTUBE) #retreive only one
-    #matchAll = re.findall(tmp_mat, sTUBE)
-    if match:
-        result = match.group(1)
-        embeddeVideo = "<iframe width=\"420\" height=\"315\" src=\"//www.youtube.com/embed/\""+result+"\" frameborder=\"0\" allowfullscreen></iframe>"
-        print embeddeVideo
-    #    for res in matchAll:
-    #        print res
+    def buildIFrameVideoFromUrl(self):
+        query = "http://www.youtube.com/results?search_query="+self.term
+        print query
 
-    else:
-        print "no result"
+        yTUBE = urllib.urlopen(query).read()
+        sTUBE = str(yTUBE)
 
-else:
-    print "indicate term"
+        #href="/watch?v=RsltR02GNZE"
+        tmp_mat = re.compile("<a href=\"/watch\?v=(.+?)(&(.+?))*\" ") #pattern to match for finding a video link
+        match = re.search(tmp_mat, sTUBE) #retreive only one
+        if match:
+            result = match.group(1)
+            self.id = result
+            embeddeVideo = "<iframe width=\"420\" height=\"315\" src=\"//www.youtube.com/embed/"+result+"\" frameborder=\"0\" allowfullscreen></iframe>"
+            return embeddeVideo
+
+        else:
+            return "no result"
+
+    def getSearchTerm(self):
+        return self.term
+
+    def getVideoId(self):
+        return self.id
+

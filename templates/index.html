@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <title>{{ title }}</title>
+</head>
+<body>
+
+<h1>{{ title }}</h1>
+
+<div>
+	<a href="http://www.youtube.com/watch?v={{ videoId }}">{{ searchTerm }} - {{ videoId }}</a>
+</div>
+
+{% block video %}   
+{{ videoFrame }}
+{% endblock %}
+
+<ul>
+	{% for href, caption in [('', 'Lose more time'), (wikilink, 'Stop losing time')] %}
+    	<li><a href="{{ href }}">{{ caption }}</a></li>
+	{% endfor %}
+</ul>
+
+</body>
+</html>
