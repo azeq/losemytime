@@ -309,7 +309,6 @@ header {
 .ie7 .content-wrap section .back-to-top {
     bottom: -70px;
 }
-
 footer {
     position: relative;
     background: url(../images/section-sep.png) repeat-x left 25px;
@@ -317,17 +316,23 @@ footer {
     margin: 0 auto;
     padding-top: 135px;
 }
-
 div.bottomButton {
     margin-top: 20px;
     margin-right: 110px;
 }
-
-div.headerTitle{
+.headerTitle{
+    text-shadow: 0px 0px; 
     float: left; 
     font-size: 40px; 
     margin: 20px; 
-    color: white;
+    color: #c5c4c4;
+}
+.headerTitle a:visited {
+    color: #c5c4c4;
+}
+.headerTitle a:hover,
+.headerTitle a:active {
+    color: #17a231
 }
 
 /* -------------------------------------------

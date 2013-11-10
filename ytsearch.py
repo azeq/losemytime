@@ -1,7 +1,10 @@
+# coding: utf-8
+
 import urllib
 import sys
 import re
 import random
+import cgi
 
 class RandomVideoBuilder:
 
@@ -15,6 +18,7 @@ class RandomVideoBuilder:
         # only 10 tries
         while i < 10:
             term = random.choice(self.listDict)
+            #term = "özil"
             query = "http://www.youtube.com/results?search_query="+term
 
             yTUBE = urllib.urlopen(query).read()
@@ -50,10 +54,25 @@ class RandomVideoBuilder:
         match = re.search(tmp_mat, sTUBE) #retreive only one
         if match:
             title = match.group(2)
-            return title
+            return self.escape(title) 
         else:
-            return self.currentId        
+            return self.currentId  
+
+    # to see raw result in the terminal
+    def debug(self):
+        print '===>>> Current Id: '+self.getCurrentVideoId()
+        print '===>>> Next Id: '+self.getNextVideoId()
+        print '===>>> Title: '+self.getVideoTitle() 
+
+    # to desactivate <,& characters... and to avoid error with non ascii character such as ö,é...
+    def escape(self, s):
+        u = unicode(s, "utf-8")
+        sEscaped = cgi.escape(u).encode('ascii', 'xmlcharrefreplace')   
+        return sEscaped  
 
 if __name__=='__main__':
-   print RandomVideoBuilder().buildIFrameVideoFromUrl()       
+    ran = RandomVideoBuilder()
+    print ran.buildIFrameVideoFromUrl()  
+    print ran.getVideoTitle()
+
 

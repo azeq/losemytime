@@ -8,17 +8,16 @@
 <!-- header-wrap -->
 <div id="header-wrap">
     <div class="headerTitle">
-        <a href="index.html">{{ title }}</a>
+        <a href="{{ url }}">{{ title }}</a>
     </div>
+
     <header>
-
-    <nav>
-        <ul>
-            <li><a href="#main">Home</a></li>
-            <li><a href="#services">Concept</a></li>
-        </ul>
-    </nav>
-
+        <nav>
+            <ul>
+                <li><a href="{{ url }}">Home</a></li>
+                <li><a href="{{ url }}concept/">Concept</a></li>
+            </ul>
+        </nav>
     </header>
 </div>
 
@@ -26,7 +25,7 @@
 <div class="content-wrap">
  <!-- main -->
     <section id="main">
-
+        {% block content %}
            <!-- Video infos
 			<div>
 				<a href="http://www.youtube.com/watch?v={{ videoId }}">{{ searchTerm }} - {{ videoId }}</a>
@@ -34,7 +33,6 @@
             -->
 
 			<div class="videoBlock">
-                <!--<h2>{{ videoTitle }} </h2>-->
                 <a href="">
                     <img class="nextImage" width="120" alt="Miniature" src="http://i1.ytimg.com/vi/{{ nextVideoId }}/mqdefault.jpg">
                 </a>
@@ -49,9 +47,8 @@
                     {% endfor %}
                 </div>
             </div>
-
+        {% endblock %}
     </section>
-
 </div>
 
 <!-- footer -->
@@ -66,7 +63,12 @@
             <li><a href="#contact">Contact</a></li>
         </ul>
         -->
-        <p class="footer-text">Copyright 2011 PageOne. &nbsp;&nbsp;&nbsp; Designed by <a href="http://www.styleshout.com/">Styleshout</a></p>
+        <p class="footer-text">
+            {% block footerInfos %}
+                You are losing your time on '{{ videoTitle }}' <br>
+            {% endblock %}
+            Copyright 2011 PageOne. &nbsp;&nbsp;&nbsp; Designed by <a href="http://www.styleshout.com/">Styleshout</a>
+        </p>
     </div>
 </footer>
 
