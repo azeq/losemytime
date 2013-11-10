@@ -3,36 +3,57 @@ import sys
 import re
 import random
 
-collection = ['dolls', 'booba']
-
 class RandomVideoBuilder:
 
-    def __init__(self):
-        self.term = collection[random.randint(0,1)]
-        self.id = "00000"
+    def __init__(self, listDict):
+        self.listDict = listDict #random.choice(collection) #pick randomly a word
+        self.currentId = ""
+        self.nextId = ""
 
     def buildIFrameVideoFromUrl(self):
-        query = "http://www.youtube.com/results?search_query="+self.term
-        print query
+        i = 0
+        # only 10 tries
+        while i < 10:
+            term = random.choice(self.listDict)
+            query = "http://www.youtube.com/results?search_query="+term
 
+            yTUBE = urllib.urlopen(query).read()
+            sTUBE = str(yTUBE)
+
+            #href="/watch?v=RsltR02GNZE"
+            tmp_mat = re.compile("<a href=\"/watch\?v=(.+?)(&(.+?))*\" ") #pattern to match for finding a video uuid
+            match = re.search(tmp_mat, sTUBE) #retreive only one
+            if match:
+                return match.group(1)
+            i += 1
+
+        return "The algorithm does not want you to lose time anymore."
+
+    def getCurrentVideoId(self):
+        return self.currentId
+
+    def getNextVideoId(self):
+        return self.nextId   
+
+    def recompute(self):
+        if self.nextId == "":
+            self.currentId = self.buildIFrameVideoFromUrl() # for the initialization
+        else:
+            self.currentId = self.nextId # swap id
+        self.nextId = self.buildIFrameVideoFromUrl() # and recompute the next one    
+
+    def getVideoTitle(self):
+        query = "http://www.youtube.com/watch?v="+self.currentId
         yTUBE = urllib.urlopen(query).read()
         sTUBE = str(yTUBE)
-
-        #href="/watch?v=RsltR02GNZE"
-        tmp_mat = re.compile("<a href=\"/watch\?v=(.+?)(&(.+?))*\" ") #pattern to match for finding a video link
+        tmp_mat = re.compile("<span id=\"eow-title\" (.+?) title=\"(.+?)\">") #pattern to match for finding the title of the video
         match = re.search(tmp_mat, sTUBE) #retreive only one
         if match:
-            result = match.group(1)
-            self.id = result
-            embeddeVideo = "<iframe width=\"420\" height=\"315\" src=\"//www.youtube.com/embed/"+result+"\" frameborder=\"0\" allowfullscreen></iframe>"
-            return embeddeVideo
-
+            title = match.group(2)
+            return title
         else:
-            return "no result"
+            return self.currentId        
 
-    def getSearchTerm(self):
-        return self.term
-
-    def getVideoId(self):
-        return self.id
+if __name__=='__main__':
+   print RandomVideoBuilder().buildIFrameVideoFromUrl()       
 

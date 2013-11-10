@@ -1,25 +1,74 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html lang="en">
-<head>
-    <title>{{ title }}</title>
-</head>
+	<head>
+	    {% block head %}{% include 'head.html' %}{% endblock %}
+	</head>
 <body>
 
-<h1>{{ title }}</h1>
+<!-- header-wrap -->
+<div id="header-wrap">
+    <div class="headerTitle">
+        <a href="index.html">{{ title }}</a>
+    </div>
+    <header>
 
-<div>
-	<a href="http://www.youtube.com/watch?v={{ videoId }}">{{ searchTerm }} - {{ videoId }}</a>
+    <nav>
+        <ul>
+            <li><a href="#main">Home</a></li>
+            <li><a href="#services">Concept</a></li>
+        </ul>
+    </nav>
+
+    </header>
 </div>
 
-{% block video %}   
-{{ videoFrame }}
-{% endblock %}
+<!-- content-wrap -->
+<div class="content-wrap">
+ <!-- main -->
+    <section id="main">
 
-<ul>
-	{% for href, caption in [('', 'Lose more time'), (wikilink, 'Stop losing time')] %}
-    	<li><a href="{{ href }}">{{ caption }}</a></li>
-	{% endfor %}
-</ul>
+           <!-- Video infos
+			<div>
+				<a href="http://www.youtube.com/watch?v={{ videoId }}">{{ searchTerm }} - {{ videoId }}</a>
+			</div>
+            -->
+
+			<div class="videoBlock">
+                <!--<h2>{{ videoTitle }} </h2>-->
+                <a href="">
+                    <img class="nextImage" width="120" alt="Miniature" src="http://i1.ytimg.com/vi/{{ nextVideoId }}/mqdefault.jpg">
+                </a>
+
+    	        {% block video %}
+                <iframe width="600px" height="340px" src="http://www.youtube.com/embed/{{ currentVideoId }}?autoplay=0" frameborder="0" allowfullscreen></iframe>   
+    			{% endblock %}
+
+    			<div class="bottomButton">
+                    {% for href, caption, target in [('', 'Lose more time', ''), (wikilink, 'Stop losing time', 'target="_blank"')] %}
+                        <a href="{{ href }}" class="download-btn" {{ target }}>{{ caption }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+
+    </section>
+
+</div>
+
+<!-- footer -->
+<footer>
+    <div class="footer-content">
+        <!--
+        <ul class="footer-menu">
+            <li><a href="#main">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#about-us">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        -->
+        <p class="footer-text">Copyright 2011 PageOne. &nbsp;&nbsp;&nbsp; Designed by <a href="http://www.styleshout.com/">Styleshout</a></p>
+    </div>
+</footer>
 
 </body>
 </html>
