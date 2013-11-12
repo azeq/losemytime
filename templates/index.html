@@ -33,9 +33,19 @@
             -->
 
 			<div class="videoBlock">
-                <a href="">
-                    <img class="nextImage" width="120" alt="Miniature" src="http://i1.ytimg.com/vi/{{ nextVideoId }}/mqdefault.jpg">
-                </a>
+                <div class="right-content">
+                    <a href="">
+                        <img width="120" alt="Miniature" src="http://i1.ytimg.com/vi/{{ nextVideoId }}/mqdefault.jpg">
+                    </a>
+                    <div class="vote-content">
+                        <a href="javascript:;" onclick="SubmitVote('{{ currentVideoId }}','True');">I was bored</a>
+                        <br>
+                        <a href="javascript:;" onclick="SubmitVote('{{ currentVideoId }}','False');">I liked it</a>
+                    </div> 
+
+                    <fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button>
+                    
+                </div>  
 
     	        {% block video %}
                 <iframe width="600px" height="340px" src="http://www.youtube.com/embed/{{ currentVideoId }}?autoplay=0" frameborder="0" allowfullscreen></iframe>   
@@ -54,21 +64,7 @@
 <!-- footer -->
 <footer>
     <div class="footer-content">
-        <!--
-        <ul class="footer-menu">
-            <li><a href="#main">Home</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#portfolio">Portfolio</a></li>
-            <li><a href="#about-us">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-        -->
-        <p class="footer-text">
-            {% block footerInfos %}
-                You are losing your time on '{{ videoTitle }}' <br>
-            {% endblock %}
-            Copyright 2011 PageOne. &nbsp;&nbsp;&nbsp; Designed by <a href="http://www.styleshout.com/">Styleshout</a>
-        </p>
+        {% block footer %} {% include 'footer.html' %} {% endblock %}
     </div>
 </footer>
 

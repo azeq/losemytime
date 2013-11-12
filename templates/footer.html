@@ -1,0 +1,21 @@
+{% block footer %}        
+    <!--
+    <ul class="footer-menu">
+        <li><a href="#main">Home</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#about-us">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+    -->
+    <p class="footer-text">
+        {% block footerInfos %}
+            You are losing your time on '{{ videoTitle }}' 
+            <br>
+        {% endblock %}
+        To improve your experience, use a real browser (not IE) and use an <a href="http://en.wikipedia.org/wiki/Ad_blocking">ad blocking</a> extension
+        like <a href="https://chrome.google.com/webstore/detail/adblock/gighmmpiobklfepjocnamgkkbiglidom?hl=fr">Adblock</a> for Chrome or <a href="https://addons.mozilla.org/fr/firefox/addon/adblock-plus/">Adblock Plus</a> for Firefox.
+        <br>
+        Copyright 2011 PageOne. Designed by <a href="http://www.styleshout.com/">Styleshout</a>
+    </p>
+{% endblock %}
