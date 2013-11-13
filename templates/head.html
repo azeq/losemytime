@@ -26,13 +26,18 @@
 
     <!--<script src="http://code.jquery.com/jquery-latest.js"></script>-->
     <script>
-        function SubmitVote(currentVideoId, getBored) {
-        $.post("doVote", {videoId : currentVideoId, hasGotBored : getBored} ,
-            function() {
-             //use the callback to desactivate the link
-             //pointer-events : none; NOOOOOO can't be desactivate by firebug
-             //add grey color or somthing
-            });
+        var lastClickedElement = null;
+            function SubmitVote(clicked,currentVideoId, getBored) {
+            if(lastClickedElement == null || lastClickedElement != clicked){
+                $.post("doVote", {videoId : currentVideoId, hasGotBored : getBored} ,
+                    function() {
+                        clicked.style.fontWeight = "bold";
+                        if(lastClickedElement != null){
+                            lastClickedElement.style.fontWeight = "normal";
+                        }
+                        lastClickedElement = clicked;
+                    });
+            }
     }
     </script>
     

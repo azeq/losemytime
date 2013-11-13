@@ -38,13 +38,10 @@
                         <img width="120" alt="Miniature" src="http://i1.ytimg.com/vi/{{ nextVideoId }}/mqdefault.jpg">
                     </a>
                     <div class="vote-content">
-                        <a href="javascript:;" onclick="SubmitVote('{{ currentVideoId }}','True');">I was bored</a>
+                        <a href="javascript:;" onclick="SubmitVote(this,'{{ currentVideoId }}','True');">I was bored</a>
                         <br>
-                        <a href="javascript:;" onclick="SubmitVote('{{ currentVideoId }}','False');">I liked it</a>
-                    </div> 
-
-                    <fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button>
-                    
+                        <a href="javascript:;" onclick="SubmitVote(this,'{{ currentVideoId }}','False');">I liked it</a>
+                    </div>                     
                 </div>  
 
     	        {% block video %}
