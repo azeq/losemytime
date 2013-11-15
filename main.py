@@ -6,7 +6,7 @@ from ytsearch import RandomVideoBuilder
 from vote import insertNewElement
 
 cherrypy.config.update({'server.socket_host': '127.0.0.1',
-                        'server.socket_port': 9292,
+                        'server.socket_port': 8000,
                        })
 
 env = Environment(loader=FileSystemLoader(['templates', 'static']))
@@ -32,17 +32,12 @@ class Root:
 		return t.render(title2 = 'Concept', pathStyle='../', url='../')
 
     @cherrypy.expose
-    def vote(self, videoId, hasGotBored):
-        insertNewElement([videoId,hasGotBored])
-        return self.index()
+    def getVote():
+        return "$$$$"
 
     @cherrypy.expose
     def doVote(self, videoId = None, hasGotBored = None):
-        print "$$$$$$$$$$$$$$$$ Vottttttttttttttttteeeeeeeee"
-        print type(str(videoId))
-        print videoId
-        print type(hasGotBored)
-        print hasGotBored
+        print "===>>>" + str(videoId) + " - " + str(hasGotBored)
         insertNewElement([str(videoId),str(hasGotBored)])
     
 
