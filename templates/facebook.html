@@ -6,7 +6,7 @@
     appId      : '1431917180370433',
     channelUrl : '//http://localhost:{{ port }}',
     status     : true, // check login status
-    cookie     : false, // enable cookies to allow the server to access the session
+    cookie     : true, // enable cookies to allow the server to access the session
     xfbml      : true  // parse XFBML
   });
 
@@ -42,10 +42,12 @@
   });
 
   function getUserInfos(response){
-    $.post("facebook", {userID : response.authResponse.userID} ,
+    $.post("updateFbInfo", {userID : response.authResponse.userID,  token : response.authResponse.accessToken,
+    stat : response.status} ,
                       function() {
                       });
   }
+  
   };
 
   // Load the SDK asynchronously

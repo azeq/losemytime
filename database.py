@@ -4,38 +4,33 @@
 import sqlite3 as lite
 import sys
 
-con = lite.connect('lyt.db')
+def insertNewVote(videoId, getBored, userId):
+    con = lite.connect('lyt.db')
 
-cars = (
-    (1, 'Audi', 52642),
-    (2, 'Mercedes', 57127),
-    (3, 'Skoda', 9000),
-    (4, 'Volvo', 29000),
-    (5, 'Bentley', 350000),
-    (6, 'Hummer', 41400),
-    (7, 'Volkswagen', 21600)
-)
+    print videoId
+    print getBored
+    print userId
 
-with con:
-    
-    cur = con.cursor()    
-    cur.execute('SELECT SQLITE_VERSION()')
+    with con:
+        cur = con.cursor()    
+        #cur.execute("INSERT INTO videovote VALUES("+videoId+","+getBored+","+userId+");")
+        # cur.execute("INSERT INTO videovote(video_id) VALUES ("+videoId+")")
+        # cur.execute("INSERT INTO videovote(get_bored) VALUES ("+getBored+")")
+        # cur.execute("INSERT INTO videovote(user_id) VALUES ("+userId+")") 
 
-    data = cur.fetchone()
+        # cur.execute("INSERT INTO videovote(video_id) VALUES ('ffff')")
+        # cur.execute("INSERT INTO videovote(get_bored) VALUES (TRUE)")
+        # cur.execute("INSERT INTO videovote(user_id) VALUES ('ddd')")
 
-    cur = con.cursor()    
-    cur.execute("DROP TABLE IF EXISTS Cars")
-    cur.execute("CREATE TABLE Cars(Id INT, Name TEXT, Price INT)")
-    cur.executemany("INSERT INTO Cars VALUES(?, ?, ?)", cars)
-    
-    print "SQLite version: %s" % data  
+        # cur.execute('insert into videovote values (?,?,?,?,?)', ['ffff', 'TRUE', 'ddd', '3'])
+        cur.execute("insert into videovote(video_id, get_bored, user_id) values('"+videoId+"', '"+getBored+"', '"+userId+"')")
 
-    lid = cur.lastrowid
-    print "The last Id of the inserted row is %s" % lid
+        lid = cur.lastrowid
+        print "The last Id of the inserted row is %s" % lid
 
-    cur.execute("SELECT * FROM Cars")
+        cur.execute("SELECT * FROM videovote")
 
-    rows = cur.fetchall()
+        rows = cur.fetchall()
 
-    for row in rows:
-        print row
+        for row in rows:
+            print row
