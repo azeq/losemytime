@@ -5,8 +5,9 @@ from jinja2 import Environment, FileSystemLoader
 from ytsearch import RandomVideoBuilder
 from vote import insertNewElement
 
+port = 8000
 cherrypy.config.update({'server.socket_host': '127.0.0.1',
-                        'server.socket_port': 8000,
+                        'server.socket_port': port,
                        })
 
 env = Environment(loader=FileSystemLoader(['templates', 'static']))
@@ -32,6 +33,11 @@ class Root:
 		return t.render(title2 = 'Concept', pathStyle='../', url='../')
 
     @cherrypy.expose
+    def facebook(self):
+        t = env.get_template('facebook.html')
+        return t.render(port = port, pathStyle='../', url='../')    
+
+    @cherrypy.expose
     def getVote():
         return "$$$$"
 
@@ -40,6 +46,9 @@ class Root:
         print "===>>>" + str(videoId) + " - " + str(hasGotBored)
         insertNewElement([str(videoId),str(hasGotBored)])
     
+    @cherrypy.expose
+    def facebook(self, userID = None):
+        print userID
 
 root = Root()
 cherrypy.quickstart(root, '/', 'main.config')

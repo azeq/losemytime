@@ -41,7 +41,8 @@
                         <a href="javascript:;" onclick="SubmitVote(this,'{{ currentVideoId }}','True');">I was bored</a>
                         <br>
                         <a href="javascript:;" onclick="SubmitVote(this,'{{ currentVideoId }}','False');">I liked it</a>
-                    </div>                     
+                    </div>   
+                {% block facebook %}{% include 'facebook.html' %}{% endblock %}                 
                 </div>  
 
     	        {% block video %}
