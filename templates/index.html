@@ -8,14 +8,14 @@
 <!-- header-wrap -->
 <div id="header-wrap">
     <div class="headerTitle">
-        <a href="{{ url }}">{{ title }}</a>
+        <a href="{{ path }}">{{ title }}</a>
     </div>
 
     <header>
         <nav>
             <ul>
-                <li><a href="{{ url }}">Home</a></li>
-                <li><a href="{{ url }}concept/">Concept</a></li>
+                <li><a href="{{ path }}">Home</a></li>
+                <li><a href="{{ path }}concept/">Concept</a></li>
             </ul>
         </nav>
     </header>
@@ -37,17 +37,14 @@
                     <a href="">
                         <img width="120" alt="Miniature" src="http://i1.ytimg.com/vi/{{ nextVideoId }}/mqdefault.jpg">
                     </a>
-                    <div class="vote-content">
-                        <a href="javascript:;" onclick="SubmitVote(this,'{{ currentVideoId }}','True');">I was bored</a>
-                        <br>
-                        <a href="javascript:;" onclick="SubmitVote(this,'{{ currentVideoId }}','False');">I liked it</a>
-                    </div>   
                 {% block facebook %}{% include 'facebook.html' %}{% endblock %}                 
                 </div>  
 
-    	        {% block video %}
                 <iframe width="600px" height="340px" src="http://www.youtube.com/embed/{{ currentVideoId }}?autoplay=0" frameborder="0" allowfullscreen></iframe>   
-    			{% endblock %}
+                <div class="vote-content">
+                    <a href="javascript:;" onclick="SubmitVote(this,'{{ currentVideoId }}','True');">I was bored</a> ({{ nbBored }}) |
+                    <a href="javascript:;" onclick="SubmitVote(this,'{{ currentVideoId }}','False');">I liked it</a> ({{ nbLiked }})
+                </div>   
 
     			<div class="bottomButton">
                     {% for href, caption, target in [('', 'Lose more time', ''), (wikilink, 'Stop losing time', 'target="_blank"')] %}

@@ -40,22 +40,6 @@
     }
     getUserInfos(response);//get user infos to store it in database
   });
-
-  // function facebookLogin() {
-  //    FB.getLoginStatus(function(response) {
-  //       //console.log(response);
-  //       if (response.status === 'connected') {
-  //           var accessToken = response.authResponse.accessToken;
-  //           alert(accessToken);
-  //       } else if (response.status === 'not_authorized') {
-  //         alert('ssss');
-  //       } else {
-  //           //login function
-  //            alert('ssss');
-  //       }
-  //   }, true);
-  // }
-  // facebookLogin();
   
   function getUserInfos(response){
     $.post("updateFbInfo", {userID : response.authResponse.userID,  

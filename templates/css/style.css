@@ -528,7 +528,7 @@ section#portfolio ul.folio-list li {
     height: 230px;
     max-height: 250px;
 }
-div.thumb {
+.thumb {
     padding: 0;
     background: url(../images/thumb-frame.png) no-repeat;
     width: 294px;
@@ -536,10 +536,13 @@ div.thumb {
     float: left;
     margin-top: 175px;
 }
-div.right-content {
+.right-content {
     float: right;
 }
-div.vote-content {
+.vote-content {
+    font-size: 12px;
+    text-align: left;
+    margin-left: 42px;
 }
 section#portfolio ul.folio-list li h3.entry-title {
     font-size: 14px;
