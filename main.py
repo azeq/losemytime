@@ -36,23 +36,23 @@ class Root:
     def concept(self):
         t = env.get_template('concept.html')
         print self.userID
-        return t.render(title2 = 'Concept', pathStyle='../', url='../', userID = self.userID)
-
-    @cherrypy.expose
-    def facebook(self):
-        t = env.get_template('facebook.html')
-        return t.render(port = port, pathStyle='../', url='../')    
+        return t.render(title2 = 'Concept', pathStyle='../', url='../', userID = self.userID)   
 
     @cherrypy.expose
     def doVote(self, videoId = None, hasGotBored = None):
         print "===>>>" + str(videoId) + " - " + str(hasGotBored)
         insertNewElement([str(videoId),str(hasGotBored)])
-        insertNewVote(str(videoId), hasGotBored, self.userID)
+        if self.userID != None and videoId != None and hasGotBored != None:
+            insertNewVote(str(videoId), hasGotBored, self.userID)
     
     @cherrypy.expose
     def updateFbInfo(self, userID = None, token = None, stat = None):
+        print "update user info"
         self.userID = userID
         self.stat = stat
 
 root = Root()
 cherrypy.quickstart(root, '/', 'main.config')
+
+
+
