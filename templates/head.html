@@ -26,19 +26,28 @@
 
     <!--<script src="http://code.jquery.com/jquery-latest.js"></script>-->
     <script>
-        var lastClickedElement = null;
-            function SubmitVote(clicked,currentVideoId, getBored) {
-            if(lastClickedElement == null || lastClickedElement != clicked){
-                $.post("doVote", {videoId : currentVideoId, hasGotBored : getBored} ,
-                    function() {
-                        clicked.style.fontWeight = "bold";
-                        if(lastClickedElement != null){
-                            lastClickedElement.style.fontWeight = "normal";
-                        }
-                        lastClickedElement = clicked;
-                    });
-            }
-    }
+
+    var lastClickedElement = null;
+        function SubmitVote(clicked,currentVideoId, getBored) {
+            FB.getLoginStatus(function(response) {
+                if (response.status === 'connected') { 
+                    if(lastClickedElement == null || lastClickedElement != clicked){
+                        $.post("doVote", {videoId : currentVideoId, hasGotBored : getBored} ,
+                            function() {
+                                FB.getLoginStatus();
+                                clicked.style.fontWeight = "bold";
+                                if(lastClickedElement != null){
+                                    lastClickedElement.style.fontWeight = "normal";
+                                }
+                                lastClickedElement = clicked;
+                            });
+                    }
+                } else {
+                    // the user isn't logged in to Facebook.
+                    alert('Please login');
+                }
+            });
+        }
     </script>
     
 {% endblock %}

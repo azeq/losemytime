@@ -44,7 +44,7 @@
   function getUserInfos(response){
     $.post("updateFbInfo", {userID : response.authResponse.userID,  
     token : response.authResponse.accessToken,
-    stat : response.status} ,function() {
+    status : response.status} ,function() {
       console.log('Transmit user info');
     });
   };

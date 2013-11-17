@@ -38,15 +38,6 @@ def insertNewVote(videoId, getBored, userId):
                 print "error"   
     return valid    
 
-    # lid = cur.lastrowid
-    # print "The last Id of the inserted row is %s" % lid
-
-    # cur.execute("SELECT * FROM "+nameOfDatabase)
-    # rows = cur.fetchall() # its a list
-
-    # for row in rows:
-    #     print row
-
 def computeAllVotes(videoId = None):
     if videoId != None:
         con = lite.connect('lyt.db')

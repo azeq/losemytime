@@ -3,7 +3,6 @@
 import cherrypy
 from jinja2 import Environment, FileSystemLoader
 from ytsearch import RandomVideoBuilder
-from vote import insertNewElement
 from database import computeAllVotes
 from database import insertNewVote
 
@@ -26,7 +25,7 @@ rvb = RandomVideoBuilder(lDictionary)
 class Root:
     def __init__(self):
         self.userID = None
-        self.stat = None
+        self.status = None
         self.paricularVideoId = None
 
     @cherrypy.expose
@@ -38,8 +37,10 @@ class Root:
             videoId = rvb.getCurrentVideoId()
         self.setVideoId(videoId) # load in the page a particularVideo, http://localhost:8000/?videoId=f9O5F1eiIjI
         votes = computeAllVotes(videoId)
+        print self.status
         return tmpl.render(title='Lose my time', currentVideoId=self.paricularVideoId, nextVideoId=rvb.getNextVideoId(),
-        	videoTitle=rvb.getVideoTitle(), wikilink=wikipediaPythonLink, path='./', nbBored = votes[0], nbLiked = votes[1])
+        	videoTitle=rvb.getVideoTitle(), wikilink=wikipediaPythonLink, path='./', nbBored = votes[0], nbLiked = votes[1],
+            connected=(self.status == 'connected'))
 
     @cherrypy.expose
     def concept(self):
@@ -51,17 +52,18 @@ class Root:
     def doVote(self, videoId = None, hasGotBored = None):
         # print "===>>>" + str(videoId) + " - " + str(hasGotBored)
         # insertNewElement([str(videoId),str(hasGotBored)])
-        if self.userID != None and videoId != None and hasGotBored != None and self.stat == 'connected':
+        if self.userID != None and videoId != None and hasGotBored != None and self.status == 'connected':
             valid = insertNewVote(str(videoId), hasGotBored, self.userID) # return true if the insertion is valid (ie an update or an new entry)
             if valid:
                 self.refreshVotes(videoId)
-
+                
     @cherrypy.expose
-    def updateFbInfo(self, userID = None, token = None, stat = None):
+    def updateFbInfo(self, userID = None, token = None, status = None):
         print "update user info"
         self.userID = userID
-        self.stat = stat
+        self.status = status
 
+    # use to refresh the number bored/liked
     def refreshVotes(self, videoId):
         computeAllVotes(videoId) # need a refresh dynamically
         self.index(videoId) # this does not refresh the page, does nothing....
