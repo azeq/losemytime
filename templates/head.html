@@ -30,14 +30,23 @@
     var lastClickedElement = null;
         function SubmitVote(clicked,currentVideoId, getBored) {
             FB.getLoginStatus(function(response) {
+                //check if the user is connect, only if he is, he can vote
                 if (response.status === 'connected') { 
                     if(lastClickedElement == null || lastClickedElement != clicked){
                         $.post("doVote", {videoId : currentVideoId, hasGotBored : getBored} ,
                             function() {
-                                FB.getLoginStatus();
-                                clicked.style.fontWeight = "bold";
+                                clicked.style.fontWeight = "bold";//change style
+
+                                //increment
+                                var elementToIncrement = getBored == 'True' ? "bored" : "liked";
+                                document.getElementById(elementToIncrement).innerHTML = parseInt("1")+parseInt(document.getElementById(elementToIncrement).innerHTML);
+
                                 if(lastClickedElement != null){
                                     lastClickedElement.style.fontWeight = "normal";
+
+                                    //decrement
+                                    var elementToDecrement = getBored == 'False' ? "bored" : "liked";
+                                    document.getElementById(elementToDecrement).innerHTML = parseInt(document.getElementById(elementToDecrement).innerHTML)-parseInt("1");
                                 }
                                 lastClickedElement = clicked;
                             });

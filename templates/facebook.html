@@ -68,6 +68,12 @@
       console.log('Good to see you, ' + response.name + '.');
     });
   }
+
+  function fbLogout(){
+    FB.api("/me/permissions","DELETE",function(response){
+      //the page (or a piece of) need a refresh and it will work correctly
+    });
+  }
 </script>
 
 <!--

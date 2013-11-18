@@ -37,17 +37,17 @@
                     <a href="">
                         <img width="120" alt="Miniature" src="http://i1.ytimg.com/vi/{{ nextVideoId }}/mqdefault.jpg">
                     </a>
-                {% block facebook %}{% include 'facebook.html' %}{% endblock %}                 
+                {% block facebook %}{% include 'facebook.html' %}{% endblock %}  
+                 <a href="javascript:;" onclick="fbLogout();">logout</a>        
                 </div>  
 
                 <iframe width="600px" height="340px" src="http://www.youtube.com/embed/{{ currentVideoId }}?autoplay=0" frameborder="0" allowfullscreen></iframe>   
                 <div class="vote-content">
-                    {% if True %}
-                        <a href="javascript:;" onclick="SubmitVote(this,'{{ currentVideoId }}','True');">I was bored</a> ({{ nbBored }}) |
-                        <a href="javascript:;" onclick="SubmitVote(this,'{{ currentVideoId }}','False');">I liked it</a> ({{ nbLiked }})
-                    {% else %}
-                        I was bored ({{ nbBored }}) | I liked it ({{ nbLiked }})
-                    {% endif %}
+                    <a href="javascript:;" onclick="SubmitVote(this,'{{ currentVideoId }}','True');">I was bored</a>
+                    (<div id="bored" style="display: inline;">{{ nbBored }}</div>) 
+                    |
+                    <a href="javascript:;" onclick="SubmitVote(this,'{{ currentVideoId }}','False');">I liked it</a> 
+                    (<div id="liked" style="display: inline;">{{ nbLiked }}</div>)
                 </div>   
 
     			<div class="bottomButton">
