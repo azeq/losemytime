@@ -1,7 +1,6 @@
 # coding: utf-8
 
 import urllib
-import sys
 import re
 import random
 import cgi

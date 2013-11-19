@@ -33,7 +33,7 @@
                 //check if the user is connect, only if he is, he can vote
                 if (response.status === 'connected') { 
                     if(lastClickedElement == null || lastClickedElement != clicked){
-                        $.post("doVote", {videoId : currentVideoId, hasGotBored : getBored} ,
+                        $.post("doVote", {hasGotBored : getBored} ,
                             function() {
                                 clicked.style.fontWeight = "bold";//change style
 
