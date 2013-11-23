@@ -4,64 +4,70 @@ import urllib
 import re
 import random
 import cgi
+# import pdb # for debugging
 
 class RandomVideoBuilder:
 
     def __init__(self, listDict):
         self.listDict = listDict #random.choice(collection) #pick randomly a word
-        self.currentId = ""
-        self.nextId = ""
+        self.uuid = None
+        self.nuuid = None
 
-    def buildIFrameVideoFromUrl(self):
+    # uuid e.g RsltR02GNZE
+    def videoPage(self, uuid):
+        query = u'http://www.youtube.com/watch?v={}'.format(uuid)
+        return str(urllib.urlopen(query).read())
+    
+    # parameter e.g Eminem
+    # page = a digit, 1 by default
+    def search(self, parameter, page = 1):
+        query = u'http://www.youtube.com/results?search_query={}&page={}'.format(parameter, page)
+        return str(urllib.urlopen(query).read())
+
+    # retrieve all video uuid of a source page content
+    def parsePage(self, content):
+        pattern = "<a href=\"/watch\?v=([\w\-]{11})\" "
+        return re.findall(pattern, content)
+
+    def randomVideo(self):
         i = 0
-        # only 10 tries
-        while i < 10:
+        # 10 tries
+        while i < 10: 
             term = random.choice(self.listDict)
-            #term = "özil"
-            query = "http://www.youtube.com/results?search_query="+term
-
-            yTUBE = urllib.urlopen(query).read()
-            sTUBE = str(yTUBE)
-
-            #href="/watch?v=RsltR02GNZE"
-            tmp_mat = re.compile("<a href=\"/watch\?v=(.+?)(&(.+?))*\" ") #pattern to match for finding a video uuid
-            match = re.search(tmp_mat, sTUBE) #retreive only one
-            if match:
-                return match.group(1)
+            pageToParse = self.search(term)
+            result = self.parsePage(pageToParse)
+            if len(result) > 0:
+                return random.choice(result)
             i += 1
+        return u'RsltR02GNZE' # send something
 
-        return "The algorithm does not want you to lose time anymore."
-
-    def getCurrentVideoId(self):
-        return self.currentId
-
-    def getNextVideoId(self):
-        return self.nextId   
-
-    def recompute(self):
-        if self.nextId == "":
-            self.currentId = self.buildIFrameVideoFromUrl() # for the initialization
+    def compute(self):
+        if self.nuuid == None:
+            self.uuid = self.randomVideo() # for the initialization
         else:
-            self.currentId = self.nextId # swap id
-        self.nextId = self.buildIFrameVideoFromUrl() # and recompute the next one    
+            self.uuid = self.nuuid # swap id
+        self.nuuid = self.randomVideo() # and recompute the next one    
 
-    def getVideoTitle(self):
-        query = "http://www.youtube.com/watch?v="+self.currentId
-        yTUBE = urllib.urlopen(query).read()
-        sTUBE = str(yTUBE)
+    def getTitle(self):
+        sTUBE = self.videoPage(self.uuid)
         tmp_mat = re.compile("<span id=\"eow-title\" (.+?) title=\"(.+?)\">") #pattern to match for finding the title of the video
         match = re.search(tmp_mat, sTUBE) #retreive only one
         if match:
             title = match.group(2)
             return self.escape(title) 
         else:
-            return self.currentId  
+            return self.uuid  
 
-    # to see raw result in the terminal
-    def debug(self):
-        print '===>>> Current Id: '+self.getCurrentVideoId()
-        print '===>>> Next Id: '+self.getNextVideoId()
-        print '===>>> Title: '+self.getVideoTitle() 
+    def isVideoExists(self, uuid):
+        pattern = "\"http\:\/\/www\.youtube\.com\/watch\?v=([\w\-]{11})\""
+        result = re.findall(pattern, self.videoPage(uuid))
+        return uuid in result
+    
+    def getUuid(self):
+        return self.uuid
+
+    def getNuuid(self):
+        return self.nuuid   
 
     # to desactivate <,& characters... and to avoid error with non ascii character such as ö,é...
     def escape(self, s):
@@ -69,9 +75,11 @@ class RandomVideoBuilder:
         sEscaped = cgi.escape(u).encode('ascii', 'xmlcharrefreplace')   
         return sEscaped  
 
-if __name__=='__main__':
-    ran = RandomVideoBuilder()
-    print ran.buildIFrameVideoFromUrl()  
-    print ran.getVideoTitle()
+    # to see raw result in the terminal
+    def debug(self):
+        print '===>>> Current Id: '+self.getUuid()
+        print '===>>> Next Id: '+self.getNuuid()
+        print '===>>> Title: '+self.getTitle() 
+
 
 
