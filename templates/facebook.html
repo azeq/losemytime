@@ -72,6 +72,7 @@
   function fbLogout(){
     FB.api("/me/permissions","DELETE",function(response){
       //the page (or a piece of) need a refresh and it will work correctly
+      location.reload(); //refresh the page
     });
   }
 </script>
@@ -79,8 +80,10 @@
 <!--
   Below we include the Login Button social plugin. This button uses the JavaScript SDK to
   present a graphical Login button that triggers the FB.login() function when clicked. -->
-<div style="width: 50px;">
-  <fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button>
-</div>
+<!-- <div style="width: 50px;">
+  <fb:login-button show-faces="false" width="200" max-rows="1"></fb:login-button>
+</div> -->
 
+<div class="fb-login-button" data-width="30" data-max-rows="1" data-show-faces="true"></div>
+<!-- <a href="javascript:;" onclick="fbLogout();">logout</a> -->
 {% endblock %}

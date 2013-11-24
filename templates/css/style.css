@@ -410,6 +410,7 @@ div.videoBlock {
     margin-right: 10%;
     width: 50em;
     text-align: center;
+    margin-top: -40px;
 }
 
 /* Slider */
@@ -538,11 +539,26 @@ section#portfolio ul.folio-list li {
 }
 .right-content {
     float: right;
+    margin-top: 76px;
 }
 .vote-content {
     font-size: 12px;
     text-align: left;
-    margin-left: 42px;
+    float: right;
+}
+.shared-content {
+    text-align: left;
+    margin-bottom: 7px;
+}
+.twitter-share-button {
+    /*to override inline style*/
+    /*margin-bottom: -8px !important;*/ 
+}
+.mainVideoBlock{
+    width: 600px;
+}
+.facebook_login{
+    width: 100px;
 }
 section#portfolio ul.folio-list li h3.entry-title {
     font-size: 14px;
@@ -724,6 +740,7 @@ footer p.footer-text {
     padding: 0 10px;
     margin-bottom: 0;
     clear: both;
+    text-align: justify;
 }
 footer .footer-content {
     position: relative;

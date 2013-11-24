@@ -1,8 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html lang="en">
-	<head>
-	    {% block head %}{% include 'head.html' %}{% endblock %}
-	</head>
+    <head>
+        {% block head %}{% include 'head.html' %}{% endblock %}
+    </head>
 <body>
 
 <!-- header-wrap -->
@@ -27,33 +27,46 @@
     <section id="main">
         {% block content %}
            <!-- Video infos
-			<div>
-				<a href="http://www.youtube.com/watch?v={{ videoId }}">{{ searchTerm }} - {{ videoId }}</a>
-			</div>
+            <div>
+                <a href="http://www.youtube.com/watch?v={{ videoId }}">{{ searchTerm }} - {{ videoId }}</a>
+            </div>
             -->
 
-			<div class="videoBlock">
+            <div class="videoBlock">
+
                 <div class="right-content">
                     <a href="">
-                        <img width="120" alt="Miniature" src="http://i1.ytimg.com/vi/{{ nextVideoId }}/mqdefault.jpg">
+                        <img width="170" alt="Miniature" src="http://i1.ytimg.com/vi/{{ nextVideoId }}/mqdefault.jpg">
                     </a>
-                {% block facebook %}{% include 'facebook.html' %}{% endblock %}  
-                 <a href="javascript:;" onclick="fbLogout();">logout</a>        
+                    <br>
+                    <a href="">Lose more time</a>
                 </div>  
+               
+                <div class="mainVideoBlock">
+                    <div class="shared-content">
+                        {% block shared %}{% include 'shared.html' %}{% endblock %} 
+                    </div>
 
-                <iframe width="600px" height="340px" src="http://www.youtube.com/embed/{{ currentVideoId }}?autoplay=0" frameborder="0" allowfullscreen></iframe>   
-                <div class="vote-content">
-                    <a href="javascript:;" onclick="SubmitVote(this,'{{ currentVideoId }}','True');">I was bored</a>
-                    (<div id="bored" style="display: inline;">{{ nbBored }}</div>) 
-                    |
-                    <a href="javascript:;" onclick="SubmitVote(this,'{{ currentVideoId }}','False');">I liked it</a> 
-                    (<div id="liked" style="display: inline;">{{ nbLiked }}</div>)
-                </div>   
+                    <iframe width="600px" height="340px" src="http://www.youtube.com/embed/{{ currentVideoId }}?autoplay=0" frameborder="0" allowfullscreen></iframe> 
 
-    			<div class="bottomButton">
-                    {% for href, caption, target in [('', 'Lose more time', ''), (wikilink, 'Stop losing time', 'target="_blank"')] %}
-                        <a href="{{ href }}" class="download-btn" {{ target }}>{{ caption }}</a>
-                    {% endfor %}
+
+                    <div class="vote-content">
+                        <a href="javascript:;" onclick="SubmitVote(this,'{{ currentVideoId }}','True');">I was bored</a>
+                        (<div id="bored" style="display: inline;">{{ nbBored }}</div>) 
+                        |
+                        <a href="javascript:;" onclick="SubmitVote(this,'{{ currentVideoId }}','False');">I liked it</a> 
+                        (<div id="liked" style="display: inline;">{{ nbLiked }}</div>)
+                    </div>   
+
+                    <div class="facebook_login">
+                        {% block facebook %}{% include 'facebook.html' %}{% endblock %} 
+                    </div> 
+                    
+                    <!-- <div class="bottomButton">
+                        {% for href, caption, target in [('', 'Lose more time', ''), (wikilink, 'Stop losing time', 'target="_blank"')] %}
+                            <a href="{{ href }}" class="download-btn" {{ target }}>{{ caption }}</a>
+                        {% endfor %}
+                    </div> -->
                 </div>
             </div>
         {% endblock %}
@@ -63,7 +76,7 @@
 <!-- footer -->
 <footer>
     <div class="footer-content">
-        {% block footer %} {% include 'footer.html' %} {% endblock %}
+        {% block footer %} {% include 'footer.html' %} {% endblock %}<a href="javascript:;" onclick="fbLogout();">logout</a>
     </div>
 </footer>
 
