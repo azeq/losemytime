@@ -53,6 +53,7 @@ time, mark, audio, video {
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
+    font-family: Helvetica neue, Helvetica, Arial;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
@@ -412,6 +413,9 @@ div.videoBlock {
     text-align: center;
     margin-top: -40px;
 }
+div.concept-text{
+    text-align: justify;
+}
 
 /* Slider */
 .slider-wrapper {
@@ -746,6 +750,7 @@ footer .footer-content {
     position: relative;
     width: 900px;
     top: -105px;
+    line-height: 18px;
 }
 footer ul.footer-menu {
     float: left;

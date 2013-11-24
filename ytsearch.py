@@ -35,12 +35,12 @@ class RandomVideoBuilder:
     def randomVideo(self):
         i = 0
         # 10 tries
-        while i < 10: 
+        while i < 5: 
             term = random.choice(self.listDict)
             result1 = self.parsePage(self.search(term))
             if len(result1) > 0:
                 # try from first to last page (1 to 50)
-                N = random.randint(2, 2)
+                N = random.randint(2, 50)
                 while N > 1:
                     resultN = self.parsePage(self.search(term, N))
                     if result1 != resultN and len(resultN) > 0:
