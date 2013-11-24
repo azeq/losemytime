@@ -1,9 +1,11 @@
+#!/usr/bin/python
 # coding: utf-8
 
 import urllib
 import re
 import random
 import cgi
+from timer_decorator import timer
 # import pdb # for debugging
 
 class RandomVideoBuilder:
@@ -29,6 +31,7 @@ class RandomVideoBuilder:
         pattern = "<a href=\"/watch\?v=([\w\-]{11})\" "
         return re.findall(pattern, content)
 
+    # maybe make that in multi threads
     def randomVideo(self):
         i = 0
         # 10 tries
@@ -37,7 +40,7 @@ class RandomVideoBuilder:
             result1 = self.parsePage(self.search(term))
             if len(result1) > 0:
                 # try from first to last page (1 to 50)
-                N = random.randint(2, 50)
+                N = random.randint(2, 2)
                 while N > 1:
                     resultN = self.parsePage(self.search(term, N))
                     if result1 != resultN and len(resultN) > 0:
@@ -48,12 +51,13 @@ class RandomVideoBuilder:
             i += 1
         return u'RsltR02GNZE' # send something
 
+    @timer(True)
     def compute(self):
         if self.nuuid == None:
             self.uuid = self.randomVideo() # for the initialization
         else:
             self.uuid = self.nuuid # swap id
-        self.nuuid = self.randomVideo() # and recompute the next one    
+        self.nuuid = self.randomVideo() # and recompute the next one  
 
     def getTitle(self):
         sTUBE = self.videoPage(self.uuid)
