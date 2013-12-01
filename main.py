@@ -7,15 +7,15 @@ from user import User
 from video import Video
 from jinja2 import Environment, FileSystemLoader
 from ytsearch import RandomVideoBuilder
-from database import computeAllVotes
-from database import insertNewVote
-from database import hasAlreadyVotedForThisVideo
+from database import DatabaseExecutor
 
-host = 'localhost'
-port = 8000
-url = host+':'+str(port)
-
-rootPath = './'
+host           = 'localhost'
+port           = 8000
+url            = host+':'+str(port)
+nameOfDatabase = u"videoVote"
+userDatabase   = u"userStatsForTest"
+path_db        = './'
+rootPath       = './'
 
 cherrypy.config.update({'server.socket_host': host,
                         'server.socket_port': port,
@@ -30,9 +30,10 @@ lDictionary = list(dictionary)
 # main page
 class Root:
     def __init__(self):
-        self.user = User()
-        self.video = Video()
-        self.rvb = RandomVideoBuilder(lDictionary)
+        self.dbExecutor = DatabaseExecutor(nameOfDatabase, userDatabase, 10, path_db)
+        self.user       = User()
+        self.video      = Video()
+        self.rvb        = RandomVideoBuilder(lDictionary)
 
     @cherrypy.expose
     def index(self, videoUUID = None):
@@ -50,7 +51,7 @@ class Root:
 
         self.video.setUUID(videoUUID)# load in the page a particularVideo, http://localhost:8000/?videoUUID=f9O5F1eiIjI
 
-        votes = computeAllVotes(videoUUID)
+        votes = self.dbExecutor.computeAllVotes(videoUUID)
 
         # userID = self.user.getUUID();
         # userVote = None
@@ -74,12 +75,20 @@ class Root:
     def concept(self):
         return env.get_template('concept.html').render(
             pageTitle = 'Concept', 
+            path      = '../')      
+
+    @cherrypy.expose
+    def podium(self):
+        ranking = self.dbExecutor.getRanking()
+        return env.get_template('podium.html').render(
+            pageTitle = 'Podium', 
+            ranking   = ranking,
             path      = '../')   
 
     @cherrypy.expose
     def doVote(self, hasGotBored = None):
         if self.user.isValid() and hasGotBored != None:
-            valid = insertNewVote(str(self.video.getUUID()), hasGotBored, self.user.getUUID()) # return true if the insertion is valid (ie an update or an new entry)
+            valid = self.dbExecutor.insertNewVote(str(self.video.getUUID()), hasGotBored, self.user.getUUID()) # return true if the insertion is valid (ie an update or an new entry)
             if valid:
                 print "insertion done"
                 
@@ -88,7 +97,7 @@ class Root:
         self.user.setUUID(userID)
         self.user.setValid(status == 'connected')
         if self.user.isValid():
-            hasVoted = hasAlreadyVotedForThisVideo(self.video.getUUID(), self.user.getUUID())
+            hasVoted = self.dbExecutor.hasAlreadyVotedForThisVideo(self.video.getUUID(), self.user.getUUID())
             self.user.setHasVoted(hasVoted)
             if hasVoted != None:
                 return hasVoted

@@ -12,8 +12,8 @@ class RandomVideoBuilder:
 
     def __init__(self, listDict):
         self.listDict = listDict #random.choice(collection) #pick randomly a word
-        self.uuid = None
-        self.nuuid = None
+        self.uuid     = None
+        self.nuuid    = None
 
     # uuid e.g RsltR02GNZE
     def videoPage(self, uuid):
