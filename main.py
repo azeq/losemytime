@@ -82,6 +82,11 @@ class Root:
         self.user.setUUID(userID)
         self.user.setValid(status == 'connected')
 
+    @cherrypy.expose
+    def youtube(self):
+        return env.get_template('youtube.html').render(
+            currentVideoId = "'M7lc1UVf-VE'") 
+
 if __name__ == '__main__':
     root = Root()
     cherrypy.quickstart(root, '/', 'main.config')

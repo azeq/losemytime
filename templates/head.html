@@ -26,12 +26,24 @@
 
     <!--<script src="http://code.jquery.com/jquery-latest.js"></script>-->
     <script>
-
     var lastClickedElement = null;
-        function SubmitVote(clicked,currentVideoId, getBored) {
-            FB.getLoginStatus(function(response) {
-                //check if the user is connect, only if he is, he can vote
-                if (response.status === 'connected') { 
+    function SubmitVote(clicked,currentVideoId, getBored) {
+        FB.getLoginStatus(function(response) {
+            //check if the user is connect, only if he is, he can vote
+            if (response.status === 'connected') { 
+                if(remainingTime() > 0){
+                    var refreshFunction = setInterval(function (){
+                        var text = 'You have still '+remainingTime()+'s to watch for being able to vote';
+                        document.getElementById("not-authorized").innerHTML = text;
+                        if(remainingTime() <= 0){
+                            document.getElementById("not-authorized").innerHTML = 'You can vote!';//change what is diplayed
+                            clearInterval(refreshFunction);
+                            setTimeout(function(){
+                                    document.getElementById("not-authorized").innerHTML = '';//after 10sec, remove text
+                                },10000);
+                        }
+                    }, 1000);//refresh every sec
+                }else{
                     if(lastClickedElement == null || lastClickedElement != clicked){
                         $.post("doVote", {hasGotBored : getBored} ,
                             function() {
@@ -51,12 +63,13 @@
                                 lastClickedElement = clicked;
                             });
                     }
-                } else {
-                    // the user isn't logged in to Facebook.
-                    alert('Please login');
                 }
-            });
-        }
+            }else {
+                // the user isn't logged in to Facebook.
+                document.getElementById("not-authorized").innerHTML = 'Please login for voting';
+            }
+        });
+    }
     </script>
     
 {% endblock %}
