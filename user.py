@@ -7,6 +7,7 @@ class User(object):
         super(User, self).__init__()
         self.uuid = None
         self.valid = False
+        self.hasVoted = None # True if has vote and get bored, False if has vote and like, None otherwise
 
     def getUUID(self):
         return  self.uuid
@@ -20,3 +21,9 @@ class User(object):
 
     def setValid(self, valid):
         self.valid = valid
+
+    def hasVoted(self):
+        return self.hasVoted;
+
+    def setHasVoted(self, hasVoted):
+        self.hasVoted = hasVoted

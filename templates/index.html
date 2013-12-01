@@ -35,11 +35,11 @@
             <div class="videoBlock">
 
                 <div class="right-content">
-                    <a href="">
+                    <a href="{{ path }}">
                         <img width="170" alt="Miniature" src="http://i1.ytimg.com/vi/{{ nextVideoId }}/mqdefault.jpg">
                     </a>
                     <br>
-                    <a href="">Lose more time</a>
+                    <a href="{{ path }}">Lose more time</a>
                 </div>  
                
                 <div class="mainVideoBlock">
@@ -51,12 +51,12 @@
                     {% block youtube %} {% include 'youtube.html' %} {% endblock %}
 
                     <div class="vote-content">
-                        <a href="javascript:;" onclick="SubmitVote(this,'{{ currentVideoId }}','True');">I was bored</a>
+                        <a href="javascript:;" onclick="SubmitVote(this,'{{ currentVideoId }}','True');" id="bored-link">I was bored</a>
                         (<div id="bored" style="display: inline;">{{ nbBored }}</div>) 
                         |
-                        <a href="javascript:;" onclick="SubmitVote(this,'{{ currentVideoId }}','False');">I liked it</a> 
+                        <a href="javascript:;" onclick="SubmitVote(this,'{{ currentVideoId }}','False');" id="liked-link">Sorry, I liked it</a> 
                         (<div id="liked" style="display: inline;">{{ nbLiked }}</div>)
-                        <div class="not-authorized" id="not-authorized" style="text-align: center; width: 145px; line-height: 100%;"></div>
+                        <div class="not-authorized" id="not-authorized" style="text-align: center; width: 177px; line-height: 100%;"></div>
                     </div>   
 
                     <div class="facebook_login">

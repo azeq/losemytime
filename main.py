@@ -9,6 +9,7 @@ from jinja2 import Environment, FileSystemLoader
 from ytsearch import RandomVideoBuilder
 from database import computeAllVotes
 from database import insertNewVote
+from database import hasAlreadyVotedForThisVideo
 
 host = 'localhost'
 port = 8000
@@ -51,6 +52,11 @@ class Root:
 
         votes = computeAllVotes(videoUUID)
 
+        # userID = self.user.getUUID();
+        # userVote = None
+        # if userID != None:
+        #     userVote = hasAlreadyVotedForThisVideo(videoUUID, userID)
+
         return env.get_template('index.html').render(
             pageURL        = url,
             pageTitle      = 'Lose my time', 
@@ -81,11 +87,15 @@ class Root:
     def updateFbInfo(self, userID = None, token = None, status = None):
         self.user.setUUID(userID)
         self.user.setValid(status == 'connected')
+        if self.user.isValid():
+            hasVoted = hasAlreadyVotedForThisVideo(self.video.getUUID(), self.user.getUUID())
+            self.user.setHasVoted(hasVoted)
+            if hasVoted != None:
+                return hasVoted
+        else:
+            self.user.setHasVoted(None) # if the user deconnects for instance
+        # return env.get_template('facebook.html').render(result = "update fb info")
 
-    @cherrypy.expose
-    def youtube(self):
-        return env.get_template('youtube.html').render(
-            currentVideoId = "'M7lc1UVf-VE'") 
 
 if __name__ == '__main__':
     root = Root()

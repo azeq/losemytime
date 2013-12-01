@@ -2,8 +2,10 @@
 # coding: utf-8 
 
 import sqlite3 as lite
+import pdb
 
 nameOfDatabase = u"videovote"
+index_bored = 1; # index in the sql base
 
 def insertNewVote(videoId, getBored, userId):
     print "insertNewVote"
@@ -51,6 +53,21 @@ def computeAllVotes(videoId = None):
 
             return [len(rowsBored), len(rowsLiked)]
             
-            # print len(rowsBored)
-            # print len(rowsLiked)
+def hasAlreadyVotedForThisVideo(videoId, userId):
+    con = lite.connect('lyt.db')
+    with con:
+        cur = con.cursor()    
+        
+        # test if the entry exists
+        cur.execute("select * from "+nameOfDatabase+" where video_id=? and user_id=?", (videoId, userId))
+        rows = cur.fetchall() # its a list
+
+        if len(rows) == 1: # the user has already voted
+            row = rows[0] # row is a tuple
+            return row[index_bored] # check his vote
+        else:   
+            return None # else return None to now that no vote
+
+
+
 

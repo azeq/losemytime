@@ -390,6 +390,7 @@ header nav ul a:active {
 ------------------------------------------ */
 section#main {
     width: 940px;
+    min-height: 470px;
     background: none;
 }
 section#main h1 {

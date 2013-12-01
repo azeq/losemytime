@@ -27,11 +27,14 @@
     <!--<script src="http://code.jquery.com/jquery-latest.js"></script>-->
     <script>
     var lastClickedElement = null;
+    var hasNeverVoted = true;
     function SubmitVote(clicked,currentVideoId, getBored) {
         FB.getLoginStatus(function(response) {
             //check if the user is connect, only if he is, he can vote
             if (response.status === 'connected') { 
-                if(remainingTime() > 0){
+                //check user has seen a good proportion of video
+                if(false){// for testing only
+                // if(remainingTime() > 0 && hasNeverVoted){ //True condition
                     var refreshFunction = setInterval(function (){
                         var text = 'You have still '+remainingTime()+'s to watch for being able to vote';
                         document.getElementById("not-authorized").innerHTML = text;
@@ -47,20 +50,17 @@
                     if(lastClickedElement == null || lastClickedElement != clicked){
                         $.post("doVote", {hasGotBored : getBored} ,
                             function() {
-                                clicked.style.fontWeight = "bold";//change style
+                                if(lastClickedElement != null){
+                                    voteStyle(lastClickedElement, false);
+                                    var elementToDecrement = getBored == 'False' ? "bored" : "liked";
+                                    document.getElementById(elementToDecrement).innerHTML = parseInt(document.getElementById(elementToDecrement).innerHTML)-parseInt("1");
+                                }
+                                voteStyle(clicked, true);
 
                                 //increment
                                 var elementToIncrement = getBored == 'True' ? "bored" : "liked";
                                 document.getElementById(elementToIncrement).innerHTML = parseInt("1")+parseInt(document.getElementById(elementToIncrement).innerHTML);
 
-                                if(lastClickedElement != null){
-                                    lastClickedElement.style.fontWeight = "normal";
-
-                                    //decrement
-                                    var elementToDecrement = getBored == 'False' ? "bored" : "liked";
-                                    document.getElementById(elementToDecrement).innerHTML = parseInt(document.getElementById(elementToDecrement).innerHTML)-parseInt("1");
-                                }
-                                lastClickedElement = clicked;
                             });
                     }
                 }
@@ -70,6 +70,25 @@
             }
         });
     }
+
+    function voteStyle(element, apply){
+        if(apply){
+            lastClickedElement = element;
+            element.style.fontWeight = "bold";//change style 
+            element.style.fontStyle  = "italic";//change style 
+        }else {
+            element.style.fontWeight = "normal";//change style 
+            element.style.fontStyle  = "normal";//change style 
+       }
+    }
+
+    function applyVoteStyle(bored){
+        hasNeverVoted = false;
+        voteStyle(document.getElementById("bored-link"), bored == 'True');
+        voteStyle(document.getElementById("liked-link"), bored == 'False');
+    }
+
+
     </script>
     
 {% endblock %}

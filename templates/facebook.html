@@ -42,10 +42,16 @@
   });
   
   function getUserInfos(response){
-    $.post("updateFbInfo", {userID : response.authResponse.userID,  
-    token : response.authResponse.accessToken,
-    status : response.status} ,function() {
-      console.log('Transmit user info');
+    $.post("updateFbInfo", {
+      userID : response.authResponse.userID,  
+      token  : response.authResponse.accessToken,
+      status : response.status} ,function(result) {
+        console.log('Transmit user info');
+        //update style of vote
+        console.log(result);
+        if(result == 'True' || result == 'False'){
+          applyVoteStyle(result);
+        }
     });
   };
 
