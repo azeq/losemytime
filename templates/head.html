@@ -18,12 +18,6 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="js/jquery-1.6.1.min.js"><\/script>')</script>
 
-    <script src="js/jquery.smoothscroll.js"></script>
-    <script src="js/jquery.nivo.slider.pack.js"></script>
-    <script src="js/jquery.easing-1.3.pack.js"></script>
-    <script src="js/jquery.fancybox-1.3.4.pack.js"></script>
-    <script src="js/init.js"></script>
-
     <!--<script src="http://code.jquery.com/jquery-latest.js"></script>-->
     <script>
     
@@ -34,8 +28,8 @@
             //check if the user is connect, only if he is, he can vote
             if (response.status === 'connected') { 
                 //check user has seen a good proportion of video
-                if(false){// for testing only
-                // if(remainingTime() > 0 && hasNeverVoted){ //True condition
+                //if(false){// for testing only
+                if(remainingTime() > 0 && hasNeverVoted){ //True condition
                     var refreshFunction = setInterval(function (){
                         var text = 'You have still '+remainingTime()+'s to watch for being able to vote';
                         document.getElementById("not-authorized").innerHTML = text;

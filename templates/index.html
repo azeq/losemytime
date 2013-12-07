@@ -6,20 +6,15 @@
 <body>
 
 <!-- header-wrap -->
-<div id="header-wrap">
-    <div class="headerTitle">
+<div class="header-wrap">
+    <div class="header-title">
         <a href="{{ path }}">Lose my time</a>
     </div>
-
-    <header>
-        <nav>
-            <ul>
-                <li><a href="{{ path }}">Home</a></li>
-                <li><a href="{{ path }}concept/">Concept</a></li>
-                <li><a href="{{ path }}podium/">Podium</a></li>
-            </ul>
-        </nav>
-    </header>
+    <div class="header-link">
+        <a href="{{ path }}">Home</a>
+        <a href="{{ path }}concept/">Concept</a>
+        <a href="{{ path }}podium/">Podium</a>
+    </div>
 </div>
 
 <!-- content-wrap -->
@@ -33,7 +28,7 @@
             </div>
             -->
 
-            <div class="videoBlock">
+            <div class="video-block">
                 
                 <div class="right-content">
                     <a href="{{ path }}">
@@ -74,6 +69,8 @@
         {% endblock %}
     </section>
 </div>
+
+<hr>
 
 <!-- footer -->
 <footer>
